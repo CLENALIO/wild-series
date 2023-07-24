@@ -1,0 +1,16 @@
+// customize some Bootstrap variables
+$primaryColor: #AA9BE9;
+$secondColor: #C46DAC;
+
+// the ~ allows you to reference things in node_modules
+@import "~bootstrap/scss/bootstrap";
+
+body {
+    background: linear-gradient($primaryColor, $secondColor);
+    min-height: 100dvh;
+
+    #home-img {
+        height: 200px;
+    }
+}
+
