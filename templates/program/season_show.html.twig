@@ -10,9 +10,10 @@
         </div>
         <h2>Liste des épisodes</h2>
             {% for episode in season.episodes %}
-                <div>
+                <div class="d-flex">
                 <p>Episode {{ episode.number }}</p>
-                <p> {{ episode.title }} </p>
+                <p> - </p> 
+                <a href="{{ path('program_episode_show', { 'program_id' : program.id, 'season_id' : season.id, 'episode_id' : episode.id  }) }}">{{ episode.title }}</a>
                 </div>
             {% else %}
                 Aucun épisode trouvé.
