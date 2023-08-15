@@ -9,14 +9,16 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/season')]
 class SeasonController extends AbstractController
 {
     #[Route('/', name: 'app_season_index', methods: ['GET'])]
-    public function index(SeasonRepository $seasonRepository): Response
+    public function index(SeasonRepository $seasonRepository, RequestStack $requestStack): Response
     {
+        $session = $requestStack->getSession();
         return $this->render('season/index.html.twig', [
             'seasons' => $seasonRepository->findAll(),
         ]);
@@ -32,6 +34,9 @@ class SeasonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($season);
             $entityManager->flush();
+
+            // Once the form is submitted, valid and the data inserted in database : flash message
+            $this->addFlash('success', 'The new season has been created');
 
             return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -59,6 +64,9 @@ class SeasonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            // Once the form is submitted, valid and the data inserted in database : flash message
+            $this->addFlash('success', 'The season has been updated');
+
             return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -74,6 +82,9 @@ class SeasonController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $season->getId(), $request->request->get('_token'))) {
             $entityManager->remove($season);
             $entityManager->flush();
+
+            // Once the form is submitted, data removed from database : flash message
+            $this->addFlash('danger', 'Season has been deleted');
         }
 
         return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);

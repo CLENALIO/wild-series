@@ -10,13 +10,15 @@ use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use App\Repository\ProgramRepository;
 use App\Entity\Category;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 #[Route('/category', name: 'category_')]
 class CategoryController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function category(CategoryRepository $categoryRepository): Response
+    public function category(CategoryRepository $categoryRepository, RequestStack $requestStack): Response
     {
+        $session = $requestStack->getSession();
         $categories = $categoryRepository->findAll();
 
         return $this->render('category/index.html.twig', ['categories' => $categories]);
@@ -34,6 +36,9 @@ class CategoryController extends AbstractController
         // Was the form submitted ?
         if ($form->isSubmitted() && $form->isValid()) {
             $categoryRepository->save($category, true);
+
+            // Once the form is submitted, valid and the data inserted in database, you can define the success flash message
+            $this->addFlash('success', 'The new category has been created');
 
             // Redirect to categories list
             return $this->redirectToRoute('category_index');

@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use App\Form\ProgramType;
 use App\Repository\ProgramRepository;
 use App\Entity\Program;
@@ -19,8 +20,9 @@ use App\Entity\Episode;
 class ProgramController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function program(ProgramRepository $programRepository): Response
+    public function program(ProgramRepository $programRepository, RequestStack $requestStack): Response
     {
+        $session = $requestStack->getSession();
         $programs = $programRepository->findAll();
 
         return $this->render('program/index.html.twig', ['programs' => $programs]);
@@ -38,6 +40,9 @@ class ProgramController extends AbstractController
         // Was the form submitted ?
         if ($form->isSubmitted() && $form->isValid()) {
             $programRepository->save($program, true);
+
+            // Once the form is submitted, valid and the data inserted in database, you can define the success flash message
+            $this->addFlash('success', 'The new program has been created');
 
             // Redirect to program list
             return $this->redirectToRoute('program_index');
