@@ -12,5 +12,10 @@ body {
     #home-img {
         height: 200px;
     }
+
+    img {
+        max-width: 100vw;
+        max-height: 50vh;
+    }
 }
 
