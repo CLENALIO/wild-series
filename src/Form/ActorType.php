@@ -6,6 +6,8 @@ use App\Entity\Actor;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\Program;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class ActorType extends AbstractType
 {
@@ -13,8 +15,13 @@ class ActorType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('program')
-        ;
+            ->add('program', EntityType::class, [
+                'class' => Program::class,
+                'choice_label' => 'title',
+                'multiple' => true,
+                'expanded' => true,
+                'by_reference' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

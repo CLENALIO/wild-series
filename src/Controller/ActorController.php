@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/actor')]
 class ActorController extends AbstractController
@@ -25,13 +26,16 @@ class ActorController extends AbstractController
     }
 
     #[Route('/new', name: 'app_actor_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $actor = new Actor();
         $form = $this->createForm(ActorType::class, $actor);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($actor->getName());
+            $actor->setSlug($slug);
+
             $entityManager->persist($actor);
             $entityManager->flush();
 
@@ -44,7 +48,7 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_actor_show', methods: ['GET'])]
+    #[Route('/{slug}', requirements: ['page' => '\d+'], name: 'app_actor_show', methods: ['GET'])]
     public function show(Actor $actor): Response
     {
         $programs = $actor->getProgram();
@@ -55,13 +59,16 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_actor_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Actor $actor, EntityManagerInterface $entityManager): Response
+    #[Route('/{slug}/edit', name: 'app_actor_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Actor $actor, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ActorType::class, $actor);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($actor->getName());
+            $actor->setSlug($slug);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_actor_index', [], Response::HTTP_SEE_OTHER);
@@ -73,10 +80,10 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_actor_delete', methods: ['POST'])]
-    public function delete(Request $request, Actor $actor, EntityManagerInterface $entityManager): Response
+    #[Route('/{slug}', name: 'app_actor_delete', methods: ['POST'])]
+    public function delete(Request $request, Actor $actor, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $actor->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $actor->getSlug(), $request->request->get('_token'))) {
             $entityManager->remove($actor);
             $entityManager->flush();
         }

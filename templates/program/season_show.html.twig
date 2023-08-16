@@ -13,7 +13,7 @@
                 <div class="d-flex">
                 <p>Episode {{ episode.number }}</p>
                 <p> - </p> 
-                <a href="{{ path('program_episode_show', { 'program_id' : program.id, 'season_id' : season.id, 'episode_id' : episode.id  }) }}">{{ episode.title }}</a>
+                <a href="{{ path('program_episode_show', { slug: program.slug, 'season_number' : season.number, 'episode_number' : episode.number  }) }}">{{ episode.title }}</a>
                 </div>
             {% else %}
                 Aucun épisode trouvé.
