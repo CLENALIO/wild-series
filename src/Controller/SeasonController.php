@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Season;
+use App\Entity\Program;
 use App\Form\SeasonType;
 use App\Repository\SeasonRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +33,10 @@ class SeasonController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $program = $season->getProgram();
+            $program->addSeason($season);
+            $entityManager->persist($program);
+
             $entityManager->persist($season);
             $entityManager->flush();
 

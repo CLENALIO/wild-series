@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use App\Form\ProgramType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use App\Repository\ProgramRepository;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
@@ -30,7 +32,7 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'new')]
-    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger): Response
+    public function new(Request $request, MailerInterface $mailer, ProgramRepository $programRepository, SluggerInterface $slugger): Response
     {
         // Create a new Category Object
         $program = new Program();
@@ -43,11 +45,19 @@ class ProgramController extends AbstractController
 
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
-
             $programRepository->save($program, true);
 
             // Once the form is submitted, valid and the data inserted in database, you can define the success flash message
             $this->addFlash('success', 'The new program has been created');
+
+            // Envoi mail automatique
+            $email = (new Email())
+                ->from($this->getParameter('mailer_from'))
+                ->to('caroline.le.nalio@hotmail.fr')
+                ->subject('Une nouvelle série vient d\'être publiée !')
+                ->html($this->renderView('Program/newProgramEmail.html.twig', ['program' => $program]));
+
+            $mailer->send($email);
 
             // Redirect to program list
             return $this->redirectToRoute('program_index');

@@ -3,10 +3,12 @@
 namespace App\Form;
 
 use App\Entity\Episode;
+use App\Entity\Season;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class EpisodeType extends AbstractType
 {
@@ -16,7 +18,7 @@ class EpisodeType extends AbstractType
             ->add('title', TextType::class)
             ->add('number', TextType::class)
             ->add('synopsis', TextType::class)
-            ->add('season', null, ['choice_label' => 'number']);
+            ->add('season', null, ['choice_label' => 'selector']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
