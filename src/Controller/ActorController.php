@@ -16,7 +16,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/actor')]
 class ActorController extends AbstractController
 {
-    #[Route('/', name: 'app_actor_index', methods: ['GET'])]
+    #[Route('/', name: 'actor_index', methods: ['GET'])]
     public function index(ActorRepository $actorRepository, RequestStack $requestStack): Response
     {
         $session = $requestStack->getSession();
@@ -25,7 +25,7 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_actor_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'actor_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $actor = new Actor();
@@ -39,7 +39,7 @@ class ActorController extends AbstractController
             $entityManager->persist($actor);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_actor_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('actor_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('actor/new.html.twig', [
@@ -48,7 +48,7 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', requirements: ['page' => '\d+'], name: 'app_actor_show', methods: ['GET'])]
+    #[Route('/{slug}', requirements: ['page' => '\d+'], name: 'actor_show', methods: ['GET'])]
     public function show(Actor $actor): Response
     {
         $programs = $actor->getProgram();
@@ -59,7 +59,7 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/edit', name: 'app_actor_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/edit', name: 'actor_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Actor $actor, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ActorType::class, $actor);
@@ -71,7 +71,7 @@ class ActorController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_actor_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('actor_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('actor/edit.html.twig', [
@@ -80,7 +80,7 @@ class ActorController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_actor_delete', methods: ['POST'])]
+    #[Route('/{slug}', name: 'actor_delete', methods: ['POST'])]
     public function delete(Request $request, Actor $actor, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         if ($this->isCsrfTokenValid('delete' . $actor->getSlug(), $request->request->get('_token'))) {
@@ -88,6 +88,6 @@ class ActorController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_actor_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('actor_index', [], Response::HTTP_SEE_OTHER);
     }
 }

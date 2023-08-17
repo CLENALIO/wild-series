@@ -10,7 +10,7 @@
             <tr>
                 <th class="text-center">Name</th>
                 <td class="text-center">{{ actor.name }}</td>
-                <td><a href="{{ path('app_actor_edit', {'slug': actor.slug}) }}" class="btn btn-warning my-1 mx-4">Modifier</a></td>
+                <td><a href="{{ path('actor_edit', {'slug': actor.slug}) }}" class="btn btn-warning my-1 mx-4">Modifier</a></td>
             </tr>           
         </tbody>
     </table>
@@ -26,6 +26,6 @@
             Aucune série trouvée.
         {% endfor %} 
 
-    <a href="{{ path('app_actor_index') }}" class="btn btn-info my-2 mx-4">Retour à la liste Acteurs</a>
+    <a href="{{ path('actor_index') }}" class="btn btn-info my-2 mx-4">Retour à la liste Acteurs</a>
     {{ include('actor/_delete_form.html.twig') }}
 {% endblock %}

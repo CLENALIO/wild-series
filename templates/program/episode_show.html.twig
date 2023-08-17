@@ -11,9 +11,26 @@
             <p>Résumé : {{episode.synopsis}} </p>
         </div>
     </div>
+    <a href="{{ path('episode_edit', {'id': episode.id}) }}" class="btn btn-warning my-1 mx-4">Modifier l'épisode</a>
+    {{ include('episode/_delete_form.html.twig') }}
     </br>
-    <a href="{{ path('program_index') }}" class="btn btn-info">
-        Retour à la liste des séries
-    </a>
-    
+    <h5>Commentaires:</h5>
+{% for comment in episode.comments %}
+    <table class="table table-white table-hover table-borderless">
+        <tbody>
+            <tr>
+                <th></th>
+                <td>Commentaire : {{ comment.details }}</td>
+                <td>Note : {{ comment.rate }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endfor %}
+ 
+        <div class="card-body">
+		{% if app.user %}
+		<a href="{{path('comment_new', {'id' : episode.id })}}" class="btn btn-primary">Ajouter un commentaire</a>
+		{% endif %}
+
+      <a href="{{ path('episode_index') }}" class="btn btn-info my-2 mx-4">Retour à la liste</a>
 {% endblock %}
