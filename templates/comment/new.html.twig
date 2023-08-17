@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Ajouter un commentaire</h1>
 
-    {{ include('comment/_form.html.twig') }}
+    {{ include('comment/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
     <a href="{{ path('episode_index') }}" class="btn btn-info my-2 mx-4">Retour</a>
 {% endblock %}

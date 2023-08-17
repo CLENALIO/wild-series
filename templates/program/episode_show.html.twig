@@ -19,8 +19,16 @@
         <tbody>
             <tr>
                 <th></th>
-                <td>Commentaire : {{ comment.details }}</td>
+                <td>{{ comment.details }}</td>
                 <td>Note : {{ comment.rate }}</td>
+                {% if is_granted("ROLE_ADMIN") or app.user == comment.getAuthor()%}
+                    <td><a href="{{ path('comment_edit', {'id': comment.id}) }}" class="btn btn-warning my-1 mx-1">Modifier</a></td>
+                {%endif%}
+
+                {% if is_granted("ROLE_ADMIN") or app.user == comment.getAuthor()%}
+                    <td>{{ include('comment/_delete_form.html.twig') }}</td>
+                {%endif%}
+
             </tr>
         </tbody>
     </table>
