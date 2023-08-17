@@ -6,6 +6,14 @@
                 <li ><a href="/program" class="nav-link px-2 text-white">Series</a></li>
                 <li ><a href="/category" class="nav-link px-2 text-white">Categories</a></li>
             </ul>
+            {% if app.user %}
+                {{ app.user.email }}
+                <form action="{{ path('app_logout') }}" method="post" >
+                    <button type="submit" class="btn btn-danger my-2 mx-4">Se deconnecter</button>
+                </form>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="btn btn-info my-2 mx-4"> Se connecter</a>
+            {% endif %}
         </div>
     </div>
 </header>
