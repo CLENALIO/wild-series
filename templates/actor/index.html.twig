@@ -1,35 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Actor index{% endblock %}
+{% block title %}Acteurs{% endblock %}
 
 {% block body %}
-    <h1>Actor index</h1>
+    <h1 class="text-center my-3">Liste des acteurs</h1>
 
-    <table class="table">
-        <thead>
+    <table class="table table-white table-hover table-borderless">
+        <thead class="text-center">
             <tr>
                 <th>Id</th>
                 <th>Name</th>
                 <th>actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center">
         {% for actor in actors %}
             <tr>
                 <td>{{ actor.id }}</td>
                 <td>{{ actor.name }}</td>
                 <td>
-                    <a href="{{ path('app_actor_show', {'slug': actor.slug}) }}">show</a>
-                    <a href="{{ path('app_actor_edit', {'slug': actor.slug}) }}">edit</a>
+                    <a href="{{ path('app_actor_show', {'slug': actor.slug}) }}" class="btn btn-warning my-1 mx-1">show</a>
+                    <a href="{{ path('app_actor_edit', {'slug': actor.slug}) }}" class="btn btn-secondary my-1 mx-1">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="5">Pas d'acteur/actrice trouvé/e</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_actor_new') }}">Create new</a>
+    <a href="{{ path('app_actor_new') }}" class="btn btn-success">Créer un nouvel acteur</a>
 {% endblock %}

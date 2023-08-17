@@ -1,20 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Categorie #{{ category.name }}{% endblock %}
+{% block title %}{{ category.name }}{% endblock %}
 
 {% block body %}
-    <h1>Toutes les séries de la catégorie {{ category.name }} : </h1>
-    {% for program in programs %}
-        <div>
-            <h2>{{ loop.index }} / {{ program.title }} </h2>
-            <p>{{ program.synopsis }}</p>
-            <a href="{{ path("program_show", { 'slug': program.slug }) }}">Voir la fiche</a>
-        </div>
-    {% else %}
-        Aucune série trouvée.
-    {% endfor %}
+    <h1 class="text-center my-3">Toutes les séries de la catégorie {{ category.name }} : </h1>
 
-    <a href="{{ path('category_index') }}">
+    <table class="table table-white table-hover table-borderless">
+                {% for program in programs %}
+                <thead>
+                <tr>
+            <th scope="row">#</th>
+            <th scope="row">Titre</th>
+            <th scope="row">Synopsis</th>
+            <th scope="row"></th>
+            <tr>
+            <thead>
+                    <tbody>
+            <tr>
+            <th scope="col">{{ loop.index }} </th>
+            <td scope="col">{{ program.title }} </td>
+            <td scope="col">{{ program.synopsis }}</td>
+            <td scope="col"><a href="{{ path("program_show", { 'slug': program.slug }) }}" class="btn btn-warning my-1 mx-4">Voir la fiche</a></td>
+                {% else %}
+                Aucune série trouvée.
+                {% endfor %}
+            </tr>           
+        </tbody>
+    </table>
+
+    <a href="{{ path('category_index') }}" class="btn btn-info my-2 mx-4">
         Retour à la liste des categories
     </a>
 {% endblock %}

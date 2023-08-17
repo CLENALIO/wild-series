@@ -16,8 +16,7 @@ use Symfony\Component\Mime\Email;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
-
-
+use Doctrine\ORM\EntityManagerInterface;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -78,6 +77,38 @@ class ProgramController extends AbstractController
             );
         }
         return $this->render('program/show.html.twig', ['program' => $program]);
+    }
+
+    #[Route('/{slug}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    {
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('program/edit.html.twig', [
+            'program' => $program,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{slug}', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $program->getSlug(), $request->request->get('_token'))) {
+            $entityManager->remove($program);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{slug}/season{season_number<\d+>}', methods: ['GET'], name: 'season_show')]

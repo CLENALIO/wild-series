@@ -1,36 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Actor{% endblock %}
+{% block title %}{{ actor.name }}{% endblock %}
 
 {% block body %}
-    <h1>Actor</h1>
-
-    <table class="table">
+    <h1 class="text-center my-3">Fiche Acteur</h1>
+    <img class="align-self-start mr-3" src="{{ vich_uploader_asset(actor) }}" alt="{{ actor.name }}">
+    <table class="table table-white table-hover table-borderless">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ actor.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ actor.name }}</td>
+                <th class="text-center">Name</th>
+                <td class="text-center">{{ actor.name }}</td>
+                <td><a href="{{ path('app_actor_edit', {'slug': actor.slug}) }}" class="btn btn-warning my-1 mx-4">Modifier</a></td>
             </tr>           
         </tbody>
     </table>
-    <h2>Liste des series dans lesquelles l'acteur a joué</h2>
+    
+    <h2 class="text-center my-3">Liste des series</h2>
         {% for program in programs %}
             <div>
-                <h2>{{ loop.index }} / {{ program.title }} </h2>
+                <h4>{{ loop.index }} / {{ program.title }} </h2>
                 <p>{{ program.synopsis }}</p>
-                <a href="{{ path("program_show", { 'slug': program.slug }) }}">Voir la fiche</a>
+                <a href="{{ path("program_show", { 'slug': program.slug }) }}" class="btn btn-secondary my-2 mx-4">Voir la fiche</a>
             </div>
         {% else %}
             Aucune série trouvée.
         {% endfor %} 
 
-    <a href="{{ path('app_actor_index') }}">back to list</a>
-
-    <a href="{{ path('app_actor_edit', {'slug': actor.slug}) }}">edit</a>
-
+    <a href="{{ path('app_actor_index') }}" class="btn btn-info my-2 mx-4">Retour à la liste Acteurs</a>
     {{ include('actor/_delete_form.html.twig') }}
 {% endblock %}
