@@ -4,10 +4,10 @@
 {% block body %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button type="submit">Add program</button>
+    <button type="submit" class="btn btn-primary my-2 mx-4">Ajoute une série</button>
     {{ form_end(form) }}
 
-    <a href="{{ path('app_index') }}">
+    <a href="{{ path('app_index') }}" class="btn btn-info my-2 mx-4">
         Retour à l'accueil
     </a>
 {% endblock %}

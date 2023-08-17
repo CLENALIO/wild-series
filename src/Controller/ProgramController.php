@@ -17,6 +17,7 @@ use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -44,6 +45,8 @@ class ProgramController extends AbstractController
 
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
+            // Set the program's owner
+            $program->setOwner($this->getUser());
             $programRepository->save($program, true);
 
             // Once the form is submitted, valid and the data inserted in database, you can define the success flash message
@@ -80,8 +83,15 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/{slug}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_home')]
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        // Check wether the logged in user is the owner of the program
+        if ($this->getUser() !== $program->getOwner()) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw $this->createAccessDeniedException('Only the owner can edit the program!');
+        }
+
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 

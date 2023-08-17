@@ -19,6 +19,6 @@
 
         {# generate a CSRF token and store it as a hidden field of the form #}
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <button type="submit">login</button>
+        <button type="submit" class="btn btn-primary my-2 mx-4">login</button>
     </form>
 {% endblock %}

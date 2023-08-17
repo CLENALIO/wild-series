@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/user/comment')]
 class UserCommentController extends AbstractController
@@ -61,8 +62,14 @@ class UserCommentController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'comment_edit', methods: ['GET', 'POST'])]
+    #[Route('/', name: 'app_home')]
     public function edit(Request $request, Comment $comment, EntityManagerInterface $entityManager): Response
     {
+
+        if ($this->getUser() !== $comment->getAuthor()) {
+            throw $this->createAccessDeniedException('Only the owner can edit the comment!');
+        }
+
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 

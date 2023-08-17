@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Comment index
+{% block title %}Liste des commentaires
 {% endblock %}
 
 {% block body %}
-	<h1 class="text-center my-3">Comment index</h1>
+	<h1 class="text-center my-3">Liste des commentaires</h1>
 
 	<table class="table table-dark table-hover table-borderless">
 		<thead class="text-center">
@@ -22,8 +22,13 @@
 					<td>{{ comment.details }}</td>
 					<td>{{ comment.rate  }}</td>
 					<td>
-						<a href="{{ path('comment_show', {'id': comment.id}) }}" class="btn btn-warning my-1 mx-1">Voir</a>
-						<a href="{{ path('comment_edit', {'id': comment.id}) }}" class="btn btn-secondary my-1 mx-1">Modifier</a>
+						<a href="{{ path('comment_show', {'id': comment.id}) }}" class="btn btn-secondary my-1 mx-1">Voir</a>
+						{% if is_granted("ROLE_ADMIN") or app.user == comment.getAuthor()%}
+						<a href="{{ path('comment_edit', {'id': comment.id}) }}" class="btn btn-warning my-1 mx-1">Modifier</a>
+						{%endif%}
+						{% if is_granted("ROLE_ADMIN") or app.user == comment.getAuthor()%}
+						<a href="{{ path('comment_delete', {'id': comment.id}) }}" class="btn btn-danger my-1 mx-1">Supprimer</a>
+						{%endif%}
 					</td>
 				</tr>
 			{% else %}

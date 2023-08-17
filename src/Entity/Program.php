@@ -74,6 +74,10 @@ class Program
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\ManyToOne(inversedBy: 'programs')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $owner = null;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
@@ -249,6 +253,18 @@ class Program
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }

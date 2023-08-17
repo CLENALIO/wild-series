@@ -28,6 +28,7 @@ class UserFixtures extends Fixture
         );
         $admin->setPassword($hashedPassword);
         $manager->persist($admin);
+        $this->addReference('admin1', $admin);
 
         // Création d’un utilisateur de type “contributeur” (= auteur)
         $contributor = new User();
@@ -39,6 +40,7 @@ class UserFixtures extends Fixture
         );
         $contributor->setPassword($hashedPassword);
         $manager->persist($contributor);
+        $this->addReference('contributor1', $contributor);
 
         // Sauvegarde des 2 nouveaux utilisateurs :
         $manager->flush();

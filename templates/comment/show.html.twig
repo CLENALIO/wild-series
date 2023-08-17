@@ -17,16 +17,17 @@
 							{{ comment.episode.number }}</h5>
 						<p class="card-text">Synopsis:
 							{{ comment.episode.synopsis }}</p>
-						<h5 class="card-text">Commentaires:
+						<h5 class="card-text">Commentaire</h5>
 
-							<a class="btn btn-primary mx-1">{{ comment.details}}</a>
+							<p>{{ comment.details}}</p>
+							<p>Note: {{ comment.rate}}</p>
 						{% endfor %}
-					</h5>
+					
 					<div class="card-body">
 						{% if app.user %}
 							<a href="{{path('comment_new', {'id' : comment.episode.id })}}" class="btn btn-primary">Ajouter un commentaire</a>
 						{% endif %}
-						<a href="{{path('comment_index')}}" class="btn btn-primary mx-3">Retour aux commentaires</a>
+						<a href="{{path('comment_index')}}" class="btn btn-info mx-3">Retour aux commentaires</a>
 					</div>
 				</div>
 			</div>

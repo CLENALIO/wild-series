@@ -8,7 +8,10 @@
         <div>
             <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
             <p>{{ program.synopsis }}</p>
-            <a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-warning">Voir la fiche</a>
+            <a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-secondary">Voir la fiche</a>
+            {% if is_granted("ROLE_ADMIN") or app.user == program.getOwner()%}
+                <a href="{{ path('program_edit', { 'slug': program.slug} ) }}" class="btn btn-warning my-2 mx-4">Éditer</a>
+            {%endif%}
         </div>
     {% else %}
         Aucune série trouvée.

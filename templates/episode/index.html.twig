@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Episode index{% endblock %}
+{% block title %}Liste des episodes{% endblock %}
 
 {% block body %}
-    <h1>Episode index</h1>
+    <h1>Liste des episodes</h1>
 
     <table class="table">
         <thead>
@@ -23,17 +23,17 @@
                 <td>{{ episode.number }}</td>
                 <td>{{ episode.synopsis }}</td>
                 <td>
-                    <a href="{{ path('program_episode_show', { slug: episode.season.program.slug, 'season_number' : episode.season.number, 'episode_number' : episode.number  }) }}">show</a>
-                    <a href="{{ path('episode_edit', {'id': episode.id}) }}">edit</a>
+                    <a href="{{ path('program_episode_show', { slug: episode.season.program.slug, 'season_number' : episode.season.number, 'episode_number' : episode.number  }) }}" class="btn btn-secondary my-1 mx-1">Voir</a>
+                    <a href="{{ path('episode_edit', {'id': episode.id}) }}" class="btn btn-warning my-1 mx-1">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Pas d'épisode</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('episode_new') }}">Create new</a>
+    <a href="{{ path('episode_new') }}" class="btn btn-primary my-2 mx-4">Créer un nouvel épisode</a>
 {% endblock %}

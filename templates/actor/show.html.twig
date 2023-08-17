@@ -20,7 +20,7 @@
             <div>
                 <h4>{{ loop.index }} / {{ program.title }} </h2>
                 <p>{{ program.synopsis }}</p>
-                <a href="{{ path("program_show", { 'slug': program.slug }) }}" class="btn btn-secondary my-2 mx-4">Voir la fiche</a>
+                <a href="{{ path("program_show", { 'slug': program.slug }) }}" class="btn btn-secondary my-2 mx-4">Voir la série</a>
             </div>
         {% else %}
             Aucune série trouvée.

@@ -20,7 +20,7 @@
             <th scope="col">{{ loop.index }} </th>
             <td scope="col">{{ program.title }} </td>
             <td scope="col">{{ program.synopsis }}</td>
-            <td scope="col"><a href="{{ path("program_show", { 'slug': program.slug }) }}" class="btn btn-warning my-1 mx-4">Voir la fiche</a></td>
+            <td scope="col"><a href="{{ path("program_show", { 'slug': program.slug }) }}" class="btn btn-secondary my-1 mx-4">Voir la série</a></td>
                 {% else %}
                 Aucune série trouvée.
                 {% endfor %}
