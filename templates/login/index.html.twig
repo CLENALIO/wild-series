@@ -1,24 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
+    <h1 class="text-center my-3">Connexion</h1>
+
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
+        <div class="mb-3">
+        <label for="username" class="form-label">Email:</label>
+        <input type="email" id="username" name="_username" value="{{ last_username }}" class="form-control">
+        </div>
+        <div class="mb-3">
+        <label for="password" class="form-label">Password:</label>
+        <input type="password" id="password" name="_password" class="form-control">
+        </div>
 
         {# redirected to on success #}
         <input type="hidden" name="_target_path" value="/"> 
 
         {# generate a CSRF token and store it as a hidden field of the form #}
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <button type="submit" class="btn btn-primary my-2 mx-4">Se connecter</button>
+        <div class="center">
+        <button type="submit" class="btn btn-primary my-10 mx-10">Se connecter</button>
+        </div>
     </form>
+        <div class="center">
+        <a href="{{ path('app_register') }}" class="btn btn-outline-dark">
+        Vous n'avez pas encore de compte? Inscrivez vous.
+        </a>
+        </div>
 {% endblock %}

@@ -1,11 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Actor{% endblock %}
+{% block title %}Nouvel acteur{% endblock %}
 
 {% block body %}
-    <h1>Create new Actor</h1>
+    <h1 class="text-center my-3">Créer un nouvel acteur</h1>
 
-    {{ include('actor/_form.html.twig') }}
+    {{ include('actor/_form.html.twig', {'button_label': 'Enregistrer'}) }}
 
+    <div class="center">
     <a href="{{ path('actor_index') }}" class="btn btn-info my-1">Retour à la liste</a>
+    </div>
 {% endblock %}
