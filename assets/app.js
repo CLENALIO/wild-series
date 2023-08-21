@@ -9,4 +9,7 @@ import './bootstrap.js';
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 
+// import bootstrap icons
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 

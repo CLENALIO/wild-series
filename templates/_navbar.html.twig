@@ -6,11 +6,14 @@
                 <li ><a href="/program" class="nav-link px-2 text-white">Series</a></li>
                 <li ><a href="/category" class="nav-link px-2 text-white">Categories</a></li>
                 <li ><a href="/actor" class="nav-link px-2 text-white">Acteurs</a></li>
-                {{ component('navbar') }}
             </ul>
+            <nav class="navbar navbar-expand-lg">
+                {{ component('navbar') }}
+            </nav>
+            
             {% if app.user %}
                 {{ app.user.email }}
-                <form action="{{ path('app_logout') }}" method="post" >
+                <form class="logout" action="{{ path('app_logout') }}" method="post" >
                     <button type="submit" class="btn btn-danger my-2 mx-4">Se deconnecter</button>
                 </form>
             {% else %}

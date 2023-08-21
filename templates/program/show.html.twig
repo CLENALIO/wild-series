@@ -31,6 +31,11 @@
         </ul>
     </div>
     </br>
+    <a href="{{ path('program_watchlist', {'slug': program.slug})}}">
+    <button class="btn btn-danger">
+        <i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+    </button>
+    </a>
     <a href="{{ path('program_index') }}" class="btn btn-info my-2 mx-4">
         Retour à la liste des séries
     </a>

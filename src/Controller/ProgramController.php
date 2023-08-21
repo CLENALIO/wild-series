@@ -16,7 +16,9 @@ use Symfony\Component\Mime\Email;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Entity\Episode;
+use App\Entity\User;
 use App\Form\SearchProgramType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -185,5 +187,26 @@ class ProgramController extends AbstractController
             'season' => $season,
             'episode' => $episode,
         ]);
+    }
+
+    #[Route('/{slug}/watchlist', name: 'watchlist', methods: ['GET', 'POST'])]
+    public function addToWatchlist(Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    {
+
+        $slug = $slugger->slug($program->getTitle());
+        $program->setSlug($slug);
+
+        /** @var \App\Entity\User */
+        $user = $this->getUser();
+        if ($user->isInWatchlist($program)) {
+            $user->removeFromWatchlist($program);
+        } else {
+            $user->addToWatchlist($program);
+        }
+
+        $entityManager->persist($program);
+        $entityManager->flush();
+
+        return $this->render('program/show.html.twig', ['program' => $program]);
     }
 }
