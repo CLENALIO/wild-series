@@ -3,7 +3,17 @@
 {% block title %}Wild Series{% endblock %}
 
 {% block body %}
-<h1>Bienvenue sur Wild Series!</h1>
+<h1 {{ stimulus_controller('symfony/ux-typed', {
+                strings: [ 
+                    'Bienvenue sur Wild Series',
+                    'Le meilleur site pour suivre tes séries préférées',
+                    'Découvre les dernières actus sur les séries du moment',
+                ],
+                loop: true,
+                showCursor: true,
+                cursorChar: '🎞️🍿📺📼🎞️🍿📺📼🎞️🍿📺📼🎞️🍿📺📼🎞️🍿📺📼🎞️🍿📺📼🎞️🍿📺📼🎞️🍿📺📼🎞️🍿📺📼',
+            }) }}
+        ></h1>
 <p>Découvrez le monde passionnant des séries TV à travers notre plateforme. Nous sommes fiers de vous présenter un espace dédié aux amoureux du petit écran, où vous pourrez explorer une vaste collection de séries captivantes, classées par catégories pour satisfaire tous les goûts.</p>
 <p>Explorez, appréciez et partagez votre passion pour les séries TV avec la communauté de Wild Series. Restez à l'affût des dernières sorties, des actualités sur vos séries adorées et des recommandations personnalisées pour enrichir votre expérience.</p>
 <p>Rejoignez nous dès maintenant et plongez dans un univers télévisuel sauvage et captivant !</p>
